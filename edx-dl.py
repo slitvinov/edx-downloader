@@ -330,8 +330,12 @@ def main():
         id_container = splitter.split(page)[1:]
         video_id += [link[:YOUTUBE_VIDEO_ID_LENGTH] for link in
                      id_container]
-        subsUrls += [BASE_URL + regexpSubs.search(container).group(1) + id + ".srt.sjson"
-                     for id, container in zip(video_id[-len(id_container):], id_container)]
+        try:
+            subsUrls += [BASE_URL + regexpSubs.search(container).group(1) + id + ".srt.sjson"
+                         for id, container in zip(video_id[-len(id_container):], id_container)]
+        except:
+            # put dummy url
+            subsUrls +=['']
         # Try to download some extra videos which is referred by iframe
         extra_ids = extra_youtube.findall(page)
         video_id += [link[:YOUTUBE_VIDEO_ID_LENGTH] for link in
